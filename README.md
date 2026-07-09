@@ -24,3 +24,8 @@ A Machine Learning-powered web application designed to predict the market value 
 ---
 
 ## 📊 Workflow Pipeline
+[Raw Dataset] ➔ [Data Cleaning & EDA] ➔ [Feature Engineering]
+↓
+[User Interface] ← [Serialized Model (.pkl)] ← [Model Training & Evaluation]
+
+
