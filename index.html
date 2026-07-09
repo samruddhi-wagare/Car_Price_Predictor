@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Prediction System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="overlay">
+    <div class="container">
+        <img src="D:\Car_Price_Predictor\images\car_logo.jpg" class="logo" alt="Car Logo">
+        <h1>🚗 CAR PRICE PREDICTION SYSTEM</h1>
+        <p class="subtitle">Machine Learning based car valuation</p>
+
+        <form id="form">
+            <input type="text" id="company" placeholder="Car Company (e.g. Hyundai)" required>
+            <input type="number" id="year" placeholder="Manufacturing Year" required>
+            <input type="number" id="kms" placeholder="Kilometers Driven" required>
+
+            <select id="fuel">
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+            </select>
+
+            <button type="submit">Predict Price</button>
+        </form>
+
+        <div id="result-box">
+            <div class="loader" id="loader"></div>
+            <h2 id="result"></h2>
+        </div>
+        <div class="accuracy-box">
+    <h3>Model Performance</h3>
+    <p>Algorithm: Random Forest Regressor</p>
+    <p>Accuracy: ~92%</p>
+    </div>
+
+    </div>
+</div>
+
+<script>
+document.getElementById("form").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("result").innerText = "";
+
+    const data = {
+        company: document.getElementById("company").value,
+        year: document.getElementById("year").value,
+        kms_driven: document.getElementById("kms").value,
+        fuel_type: document.getElementById("fuel").value
+    };
+
+    const res = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("result").innerText =
+        "Estimated Car Price: ₹ " + result.predicted_price;
+});
+</script>
+
+</body>
+</html>
